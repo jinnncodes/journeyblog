@@ -1,0 +1,16 @@
+# dependencies
+node_modules/
+yarn.lock
+pnpm-lock.yaml
+package-lock.json
+
+# build output
+dist/
+
+# local env files
+.env
+.env.*.local
+
+# misc
+.DS_Store
+*.log
