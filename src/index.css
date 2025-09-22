@@ -13,6 +13,19 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.circle-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  stroke: gray; 
+  transition: stroke-dashoffset 1s ease;
+}
+
+.group:hover .circle-path {
+  stroke-dashoffset: 0;
+  stroke: #ec4899; 
+}
+
+
 a {
   font-weight: 500;
   color: #646cff;
