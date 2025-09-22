@@ -1,100 +1,220 @@
-// src/App.tsx
-import './App.css';
-import { useState } from "react";
-import { FaGithub, FaYoutube, FaLinkedin, FaFacebook, FaInstagram } from "react-icons/fa";
+import "./App.css";
+import logo from "./assets/logo.png";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import {
+  FaGithub,
+  FaYoutube,
+  FaLinkedin,
+  FaFacebook,
+  FaInstagram,
+} from "react-icons/fa";
+import { Carousel } from "react-responsive-carousel";
 import { events } from "./assets/imageUrls";
+import { useImagePreloader } from "./hooks/useImagePreloader";
 
-type EventType = typeof events[0]; // Type for an event
+type EventType = (typeof events)[0];
 
 // --- Carousel Component ---
 function EventCarousel({ event }: { event: EventType }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const prev = () => setCurrentIndex(prev => (prev === 0 ? event.images.length - 1 : prev - 1));
-  const next = () => setCurrentIndex(prev => (prev === event.images.length - 1 ? 0 : prev + 1));
-
   return (
-    <div className="relative w-full h-[400px] md:h-[600px] overflow-hidden rounded-lg shadow-lg my-4">
-      <img
-        src={event.images[currentIndex]}
-        alt={`Slide ${currentIndex + 1}`}
-        className="w-full h-full object-cover transition-all duration-500"
-      />
-
-      {/* Controls */}
-      <button
-        onClick={prev}
-        className="absolute top-1/2 left-4 -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white px-3 py-1 rounded-full hover:bg-opacity-80"
+    <div className="my-4 rounded-lg overflow-hidden shadow-lg">
+      <Carousel
+        showArrows={true}
+        showThumbs={false}
+        showStatus={false}
+        infiniteLoop
+        useKeyboardArrows
+        autoPlay
+        interval={5000}
+        stopOnHover
+        swipeable
+        emulateTouch
+        className="event-carousel"
       >
-        ‹
-      </button>
-      <button
-        onClick={next}
-        className="absolute top-1/2 right-4 -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white px-3 py-1 rounded-full hover:bg-opacity-80"
-      >
-        ›
-      </button>
-
-      {/* Dots */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
-        {event.images.map((_, idx) => (
-          <button
-            key={idx}
-            onClick={() => setCurrentIndex(idx)}
-            className={`w-3 h-3 rounded-full ${currentIndex === idx ? "bg-white" : "bg-gray-400"}`}
-          />
+        {event.images.map((src, idx) => (
+          <div key={idx}>
+            <img
+              src={src}
+              alt={`Slide ${idx + 1}`}
+              className="object-cover h-[400px] md:h-[600px] w-full"
+            />
+          </div>
         ))}
-      </div>
+      </Carousel>
     </div>
   );
 }
 
 // --- Main App ---
 export default function App() {
+  const allImages = events.flatMap((event) => event.images);
+  const imagesLoaded = useImagePreloader(allImages);
+
+  if (!imagesLoaded) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-lg">Loading images...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-4xl mx-auto px-6 py-8 font-sans leading-relaxed">
-      
       {/* Navbar */}
-      <header className="flex justify-between items-center py-4 border-b">
-        <div className="text-2xl font-bold">Jin</div>
-        <nav className="space-x-6">
-          <a href="#" className="hover:text-blue-600">Click Here!</a>
+      <header className="flex justify-between items-center h-[100px] border-b">
+        <div className="flex items-center space-x-2">
+          <img src={logo} alt="Logo" className="h-30 w-auto" />
+        </div>
+
+        <nav className="flex items-center space-x-6">
+          {/* Spade Icon Button */}
+          <a
+            href="#"
+            className="relative group flex items-center justify-center px-6 py-3 rounded-full text-gray-500 font-medium mr-0"
+            title="Spade"
+          >
+            {/* Animated Circle */}
+            <svg
+              className="absolute inset-0 w-full h-full"
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="50"
+                cy="50"
+                r="48"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                pathLength="1"
+                className="circle-path"
+              />
+            </svg>
+
+            {/* Spade Icon (SVG) */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              className="w-5 h-5 text-current transition-colors duration-300 group-hover:text-pink-500"
+              fill="currentColor"
+            >
+              <path
+                d="M12 18.445a.778.778 0 0 1-.34-.078C11.39 18.235 5 15.077 5 9.889a3.889 3.889 0 0 1 6.638-2.75L12 7.5l.362-.361A3.889 3.889 0 0 1 19 9.889c0 5.17-6.387 8.344-6.66 8.478a.778.778 0 0 1-.34.078z"
+                transform="scale(1,-1) translate(0,-24)"
+              />
+              <path d="M9 19 Q12 24, 15 19 Z" />
+            </svg>
+          </a>
+
+          {/* Sponsor Button */}
+          <a
+            href="https://github.com/sponsors/jinnncodes"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Sponsor on GitHub"
+            className="relative group flex items-center gap-2 px-6 py-3 rounded-full text-gray-500 font-medium"
+          >
+            <svg
+              className="absolute inset-0 w-full h-full"
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="50"
+                cy="50"
+                r="48"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                pathLength="1"
+                className="circle-path"
+              />
+            </svg>
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              className="w-5 h-5 text-current transition-colors duration-300 group-hover:text-pink-500"
+              fill="currentColor"
+            >
+              <path
+                fillRule="nonzero"
+                d="M12 18.445a.778.778 0 0 1-.34-.078C11.39 18.235 5 15.077 5 9.889a3.889 3.889 0 0 1 6.638-2.75L12 7.5l.362-.361A3.889 3.889 0 0 1 19 9.889c0 5.17-6.387 8.344-6.66 8.478a.778.778 0 0 1-.34.078z"
+              />
+            </svg>
+          </a>
         </nav>
       </header>
 
       <main className="mt-12 space-y-8">
-
-        {/* --- Intro Section --- */}
+        {/* Intro Section */}
         <section>
           <h1 className="text-4xl font-bold mb-2">
             The New Skill in AI is Not Prompting, It's Context Engineering
           </h1>
-          <p className="text-gray-600 mb-8">October 2, 2025</p>
+          <p className="text-gray-600 mb-8 flex items-center gap-4">
+            October 2, 2025 · 2 min read
+            <a
+              href="https://github.com/jinnncodes/journeyblog"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-blue-600 underline"
+            >
+              <FaGithub />
+            </a>
+          </p>
+
           <p className="mb-6">
-            Context Engineering is a new term gaining traction in the AI world. The conversation is shifting from "prompt engineering" to a broader, more powerful concept: Context Engineering.
+            Context Engineering is a new term gaining traction in the AI world.
+            The conversation is shifting from "prompt engineering" to a broader,
+            more powerful concept: Context Engineering.
           </p>
           <p className="mb-6">
-            With the rise of Agents it becomes more important what information we load into the “limited working memory”. Most agent failures are not model failures anymore; they are context failures.
+            With the rise of Agents it becomes more important what information
+            we load into the “limited working memory”. Most agent failures are
+            not model failures anymore; they are context failures.
           </p>
         </section>
 
-        {/* --- What is the Context --- */}
+        {/* What is the Context */}
         <section>
           <h2 className="text-2xl font-semibold mb-4">What is the Context?</h2>
           <ul className="list-disc ml-6 space-y-2 mb-6">
-            <li><strong>Instructions / System Prompt:</strong> Initial instructions defining model behavior.</li>
-            <li><strong>User Prompt:</strong> Immediate task or question from the user.</li>
-            <li><strong>State / History:</strong> Current conversation context.</li>
-            <li><strong>Long-Term Memory:</strong> Persistent knowledge from past interactions.</li>
-            <li><strong>Retrieved Information (RAG):</strong> External knowledge sources.</li>
-            <li><strong>Available Tools:</strong> Functions or built-in tools model can call.</li>
-            <li><strong>Structured Output:</strong> Format definitions for the model's response.</li>
+            <li>
+              <strong>Instructions / System Prompt:</strong> Initial
+              instructions defining model behavior.
+            </li>
+            <li>
+              <strong>User Prompt:</strong> Immediate task or question from the
+              user.
+            </li>
+            <li>
+              <strong>State / History:</strong> Current conversation context.
+            </li>
+            <li>
+              <strong>Long-Term Memory:</strong> Persistent knowledge from past
+              interactions.
+            </li>
+            <li>
+              <strong>Retrieved Information (RAG):</strong> External knowledge
+              sources.
+            </li>
+            <li>
+              <strong>Available Tools:</strong> Functions or built-in tools
+              model can call.
+            </li>
+            <li>
+              <strong>Structured Output:</strong> Format definitions for the
+              model's response.
+            </li>
           </ul>
         </section>
 
-        {/* --- Manual Event Sections --- */}
+        {/* Event Sections */}
         <section>
-          <h2 className="text-2xl font-semibold mb-2">Diri naithan si Denzio</h2>
+          <h2 className="text-2xl font-semibold mb-2">
+            Diri naithan si Denzio
+          </h2>
           <EventCarousel event={events[0]} />
           <p>Here is the description or story related to this event...</p>
         </section>
@@ -105,29 +225,67 @@ export default function App() {
           <p>Here is the description or story related to this event...</p>
         </section>
 
-        {/* --- Why It Matters --- */}
+        {/* Why It Matters */}
         <section>
           <h2 className="text-2xl font-semibold mb-2">Why It Matters</h2>
           <p>
-            The secret to building effective AI agents has less to do with code complexity and more to do with the quality of the context you provide.
+            The secret to building effective AI agents has less to do with code
+            complexity and more to do with the quality of the context you
+            provide.
           </p>
         </section>
-
       </main>
 
       {/* Footer */}
       <footer className="mt-16 py-8 border-t text-center text-gray-600 text-sm space-y-2">
-        <p>Thanks for reading! If you have any questions or feedback, please let me know on Twitter or LinkedIn.</p>
+        <p>
+          Thanks for reading! If you have any questions or feedback, please let
+          me know on Twitter or LinkedIn.
+        </p>
         <p>Gene Lloyd Respensor © 2025</p>
         <div className="space-x-4 flex justify-center py-4 gap-4">
-          <a href="https://github.com/jinnncodes" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400"><FaGithub /></a>
-          <a href="https://www.youtube.com/@jinnncodes" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400"><FaYoutube /></a>
-          <a href="https://www.linkedin.com/in/jinnncodes/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400"><FaLinkedin /></a>
-          <a href="https://www.facebook.com/jinnnsama/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400"><FaFacebook /></a>
-          <a href="https://www.instagram.com/jinnncodess/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400"><FaInstagram /></a>
+          <a
+            href="https://github.com/jinnncodes"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-blue-400"
+          >
+            <FaGithub />
+          </a>
+          <a
+            href="https://www.youtube.com/@jinnncodes"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-blue-400"
+          >
+            <FaYoutube />
+          </a>
+          <a
+            href="https://www.linkedin.com/in/jinnncodes/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-blue-400"
+          >
+            <FaLinkedin />
+          </a>
+          <a
+            href="https://www.facebook.com/jinnnsama/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-blue-400"
+          >
+            <FaFacebook />
+          </a>
+          <a
+            href="https://www.instagram.com/jinnncodess/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-blue-400"
+          >
+            <FaInstagram />
+          </a>
         </div>
       </footer>
-
     </div>
   );
 }
