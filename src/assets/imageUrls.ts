@@ -5,12 +5,16 @@ export type Media = {
 
 export type Event = {
   name: string;
+  description?: string;
+  title?: string;
   media: Media[];
 };
 
 export const events: Event[] = [
   {
     name: "anotherqtrly",
+    title: "Quarterly Event",
+    description: "Team celebrating after quarterly presentation",
     media: [
       {
         type: "image",
@@ -40,6 +44,8 @@ export const events: Event[] = [
   },
   {
     name: "baihotel",
+    title: "After Party Bai Hotel",
+    description: "Test",
     media: [
       {
         type: "image",
