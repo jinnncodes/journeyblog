@@ -58,11 +58,11 @@ function EventCarousel({ event }: { event: Event }) {
 
 // --- Main App ---
 export default function App() {
-  // flatten all media into [{ type, src }]
   const allMedia: Media[] = events.flatMap((event) => event.media);
-
-  // preload both images and videos
   const mediaLoaded = useMediaPreloader(allMedia);
+
+  // Event display controller using Index
+  const arrayDisplay = [0, 1];
 
   if (!mediaLoaded) {
     return (
@@ -77,17 +77,18 @@ export default function App() {
       {/* Navbar */}
       <header className="flex justify-between items-center h-[100px] border-b">
         <div className="flex items-center space-x-2">
-          <img src={logo} alt="Logo" className="h-30 w-auto" />
+          <a href="/">
+            <img src={logo} alt="Logo" className="h-30 w-auto" />
+          </a>
         </div>
 
         <nav className="flex items-center space-x-6">
-          {/* Spade Icon Button */}
+          {/* <> Icon Button */}
           <a
             href="#"
             className="relative group flex items-center justify-center px-6 py-3 rounded-full text-gray-500 font-medium mr-0"
-            title="Spade"
+            title="Diamond"
           >
-            {/* Animated Circle */}
             <svg
               className="absolute inset-0 w-full h-full"
               viewBox="0 0 100 100"
@@ -104,23 +105,17 @@ export default function App() {
                 className="circle-path"
               />
             </svg>
-
-            {/* Spade Icon (SVG) */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               className="w-5 h-5 text-current transition-colors duration-300 group-hover:text-pink-500"
               fill="currentColor"
             >
-              <path
-                d="M12 18.445a.778.778 0 0 1-.34-.078C11.39 18.235 5 15.077 5 9.889a3.889 3.889 0 0 1 6.638-2.75L12 7.5l.362-.361A3.889 3.889 0 0 1 19 9.889c0 5.17-6.387 8.344-6.66 8.478a.778.778 0 0 1-.34.078z"
-                transform="scale(1,-1) translate(0,-24)"
-              />
-              <path d="M9 19 Q12 24, 15 19 Z" />
+              <path d="M12 2 L22 12 L12 22 L2 12 Z" />
             </svg>
           </a>
 
-          {/* Sponsor Button */}
+          {/* <3 Sponsor Button */}
           <a
             href="https://github.com/sponsors/jinnncodes"
             target="_blank"
@@ -144,11 +139,10 @@ export default function App() {
                 className="circle-path"
               />
             </svg>
-
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
-              className="w-5 h-5 text-current transition-colors duration-300 group-hover:text-pink-500"
+              className="w-6 h-6 text-current transition-colors duration-300 group-hover:text-pink-500"
               fill="currentColor"
             >
               <path
@@ -190,54 +184,20 @@ export default function App() {
           </p>
         </section>
 
-        {/* What is the Context */}
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">What is the Context?</h2>
-          <ul className="list-disc ml-6 space-y-2 mb-6">
-            <li>
-              <strong>Instructions / System Prompt:</strong> Initial
-              instructions defining model behavior.
-            </li>
-            <li>
-              <strong>User Prompt:</strong> Immediate task or question from the
-              user.
-            </li>
-            <li>
-              <strong>State / History:</strong> Current conversation context.
-            </li>
-            <li>
-              <strong>Long-Term Memory:</strong> Persistent knowledge from past
-              interactions.
-            </li>
-            <li>
-              <strong>Retrieved Information (RAG):</strong> External knowledge
-              sources.
-            </li>
-            <li>
-              <strong>Available Tools:</strong> Functions or built-in tools
-              model can call.
-            </li>
-            <li>
-              <strong>Structured Output:</strong> Format definitions for the
-              model's response.
-            </li>
-          </ul>
-        </section>
-
         {/* Event Sections */}
-        <section>
-          <h2 className="text-2xl font-semibold mb-2">
-            Diri naithan si Denzio
-          </h2>
-          <EventCarousel event={events[0]} />
-          <p>Here is the description or story related to this event...</p>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-semibold mb-2">Natog akong amigo</h2>
-          <EventCarousel event={events[1]} />
-          <p>Here is the description or story related to this event...</p>
-        </section>
+        {arrayDisplay.map((idx) => {
+          const event = events[idx];
+          if (!event) return null;
+          return (
+            <section key={idx} className="mb-12">
+              <h2 className="text-2xl font-semibold mb-2">{event.title}</h2>
+              <EventCarousel event={event} />
+              {event.description && (
+                <p className="text-gray-600 mt-2">{event.description}</p>
+              )}
+            </section>
+          );
+        })}
 
         {/* Why It Matters */}
         <section>
