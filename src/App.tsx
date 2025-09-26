@@ -10,16 +10,18 @@ import {
 } from "react-icons/fa";
 import { Carousel } from "react-responsive-carousel";
 import { events } from "./assets/imageUrls";
-import { useImagePreloader } from "./hooks/useImagePreloader";
-
-type EventType = (typeof events)[0];
+import { useMediaPreloader } from "./hooks/useMediaPreloader";
+import type { Media, Event } from "./assets/imageUrls";
 
 // --- Carousel Component ---
-function EventCarousel({ event }: { event: EventType }) {
+function EventCarousel({ event }: { event: Event }) {
+  if (!event?.media || event.media.length === 0) {
+    return <p className="text-gray-500">No media available for this event.</p>;
+  }
   return (
     <div className="my-4 rounded-lg overflow-hidden shadow-lg">
       <Carousel
-        showArrows={true}
+        showArrows
         showThumbs={false}
         showStatus={false}
         infiniteLoop
@@ -31,13 +33,22 @@ function EventCarousel({ event }: { event: EventType }) {
         emulateTouch
         className="event-carousel"
       >
-        {event.images.map((src, idx) => (
+        {event.media.map((item, idx) => (
           <div key={idx}>
-            <img
-              src={src}
-              alt={`Slide ${idx + 1}`}
-              className="object-cover h-[400px] md:h-[600px] w-full"
-            />
+            {item.type === "image" ? (
+              <img
+                src={item.src}
+                alt={`Slide ${idx + 1}`}
+                className="object-cover h-[400px] md:h-[600px] w-full"
+                loading="lazy"
+              />
+            ) : (
+              <video
+                src={item.src}
+                controls
+                className="object-cover h-[400px] md:h-[600px] w-full"
+              />
+            )}
           </div>
         ))}
       </Carousel>
@@ -47,13 +58,16 @@ function EventCarousel({ event }: { event: EventType }) {
 
 // --- Main App ---
 export default function App() {
-  const allImages = events.flatMap((event) => event.images);
-  const imagesLoaded = useImagePreloader(allImages);
+  // flatten all media into [{ type, src }]
+  const allMedia: Media[] = events.flatMap((event) => event.media);
 
-  if (!imagesLoaded) {
+  // preload both images and videos
+  const mediaLoaded = useMediaPreloader(allMedia);
+
+  if (!mediaLoaded) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <p className="text-lg">Loading images...</p>
+        <p className="text-lg">Loading media...</p>
       </div>
     );
   }
@@ -239,8 +253,7 @@ export default function App() {
       {/* Footer */}
       <footer className="mt-16 py-8 border-t text-center text-gray-600 text-sm space-y-2">
         <p>
-          Thanks for reading! If you have any questions or feedback, please let
-          me know on Twitter or LinkedIn.
+          Thanks for reading! If you have any questions or feedback, reach out.
         </p>
         <p>Gene Lloyd Respensor © 2025</p>
         <div className="space-x-4 flex justify-center py-4 gap-4">
