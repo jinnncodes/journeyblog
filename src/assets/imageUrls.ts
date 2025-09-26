@@ -38,13 +38,20 @@ export const events: Event[] = [
       },
     ],
   },
-  // {
-  //   name: "baihotel",
-  //   image: [
-  //     "https://res.cloudinary.com/debusvnxa/image/upload/v1758245280/2_fndk0b.webp",
-  //     "https://res.cloudinary.com/debusvnxa/image/upload/v1758245279/1_nflu7v.webp",
-  //   ],
-  // },
+  {
+    name: "baihotel",
+    media: [
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/debusvnxa/image/upload/v1758245280/2_fndk0b.webp",
+      },
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/debusvnxa/image/upload/v1758245279/1_nflu7v.webp",
+      },
+    ],
+  },
+
   // {
   //   name: "bossidolonwheels",
   //   image: [
