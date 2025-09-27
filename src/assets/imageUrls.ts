@@ -58,13 +58,78 @@ export const events: Event[] = [
     ],
   },
 
-  // {
-  //   name: "bossidolonwheels",
-  //   image: [
-  //     "https://res.cloudinary.com/debusvnxa/image/upload/v1758245280/2_fndk0b.webp",
-  //     "https://res.cloudinary.com/debusvnxa/image/upload/v1758245279/1_nflu7v.webp",
-  //   ],
-  // },
+  {
+    name: "bossidolonwheels",
+    title: "Boss Amo on Wheels",
+    description: "Our Boss Mimil testing manual for the first time.",
+    media: [
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/debusvnxa/image/upload/v1758245280/4_zdz1s8.webp",
+      },
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/debusvnxa/image/upload/v1758245279/5_ea5zee.webp",
+      },
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/debusvnxa/image/upload/v1758245279/3_fnvrwn.webp",
+      },
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/debusvnxa/image/upload/v1758245278/2_haulor.webp",
+      },
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/debusvnxa/image/upload/v1758245278/1_ijsqsl.webp",
+      },
+    ],
+  },
+
+  {
+    name: "burrows",
+    title: "Team Dinner on Burrows",
+    description: "Team Dinner x Arlo the model.",
+    media: [
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/debusvnxa/image/upload/v1758245282/9_odvahf.jpg",
+      },
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/debusvnxa/image/upload/v1758245282/8_tn7ohx.jpg",
+      },
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/debusvnxa/image/upload/v1758245281/5_salkfx.jpg",
+      },
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/debusvnxa/image/upload/v1758245281/7_vsosdo.jpg",
+      },
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/debusvnxa/image/upload/v1758245281/6_obnw6m.jpg",
+      },
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/debusvnxa/image/upload/v1758245281/4_mt0n3d.jpg",
+      },
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/debusvnxa/image/upload/v1758245281/2_elkucx.jpg",
+      },
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/debusvnxa/image/upload/v1758245281/3_m6ue1l.jpg",
+      },
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/debusvnxa/image/upload/v1758245280/1_vcwezc.jpg",
+      },
+    ],
+  },
+
   // {
   //   name: "burrows",
   //   image: [
